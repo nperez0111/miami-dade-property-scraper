@@ -1,0 +1,477 @@
+{
+    "Additionals": {
+        "AddtionalInfo": [ {
+            "Key": "LAND USE AND RESTRICTIONS",
+            "Value": [ {
+                "InfoName": "Community Development District",
+                "InfoValue": "COUNTYGIS",
+                "Message": ""
+            }, {
+                "InfoName": "Community Redevelopment Area",
+                "InfoValue": "COUNTYGIS",
+                "Message": ""
+            }, {
+                "InfoName": "Empowerment Zone",
+                "InfoValue": "COUNTYGIS",
+                "Message": ""
+            }, {
+                "InfoName": "Enterprise Zone",
+                "InfoValue": "COUNTYGIS",
+                "Message": ""
+            }, {
+                "InfoName": "Urban Development",
+                "InfoValue": "COUNTYGIS",
+                "Message": ""
+            }, {
+                "InfoName": "Zoning Code",
+                "InfoValue": "COUNTYGIS",
+                "Message": ""
+            }, {
+                "InfoName": "Existing Land Use",
+                "InfoValue": "COUNTYGIS",
+                "Message": ""
+            }, {
+                "InfoName": "Government Agencies and Community Services",
+                "InfoValue": "http://gisweb.miamidade.gov/communityservices/CommunityServicesAll.html?x=&y=&bufferDistance=5&address=27278 SW 143 AVE",
+                "Message": ""
+            } ]
+        }, {
+            "Key": "OTHER GOVERNMENTAL JURISDICTIONS",
+            "Value": [ {
+                "InfoName": "Business Incentives",
+                "InfoValue": "http://gisweb.miamidade.gov/businessincentive/default.aspx?searchtype=address&amp;paramvalue=",
+                "Message": ""
+            }, {
+                "InfoName": "Childrens Trust",
+                "InfoValue": "https://www.thechildrenstrust.org/",
+                "Message": ""
+            }, {
+                "InfoName": "Environmental Considerations",
+                "InfoValue": "http://gisweb.miamidade.gov/environmentalconsiderations/default.aspx?searchtype=address&paramvalue=27278 SW 143 AVE",
+                "Message": ""
+            }, {
+                "InfoName": "Florida Department Of Revenue",
+                "InfoValue": "http://dor.myflorida.com/dor/property/",
+                "Message": ""
+            }, {
+                "InfoName": "Florida Inland Navigation District",
+                "InfoValue": "http://www.aicw.org/index.jsp",
+                "Message": ""
+            }, {
+                "InfoName": "Miami-Dade County",
+                "InfoValue": "http://miamidade.gov/",
+                "Message": ""
+            }, {
+                "InfoName": "PA Bulletin Board",
+                "InfoValue": "http://bbs.miamidade.gov/",
+                "Message": ""
+            }, {
+                "InfoName": "Non-Ad Valorem Assessments",
+                "InfoValue": "http://www.miamidade.gov/PAPortal/Taxes/NonAdvalorem.aspx?folio=3069340213320",
+                "Message": ""
+            }, {
+                "InfoName": "School Board",
+                "InfoValue": "http://www.dadeschools.net/",
+                "Message": ""
+            }, {
+                "InfoName": "South Florida Water Mgmt District",
+                "InfoValue": "http://www.sfwmd.gov/portal/page/portal/sfwmdmain/home%20page",
+                "Message": ""
+            }, {
+                "InfoName": "Tax Collector",
+                "InfoValue": "http://www.miamidade.gov/taxcollector/",
+                "Message": ""
+            } ]
+        } ],
+        "FooterMessage": "",
+        "HeaderMessage": "* The information listed below is not derived from the Property Appraiser's Office records.  It is provided for convenience and is derived from other government agencies."
+    },
+    "Assessment": {
+        "AssessmentInfos": [ {
+            "AssessedValue": 143981,
+            "BuildingOnlyValue": 0,
+            "ExtraFeatureValue": 0,
+            "LandValue": 0,
+            "Message": null,
+            "TotalValue": 153990,
+            "Year": 2017
+        }, {
+            "AssessedValue": 141020,
+            "BuildingOnlyValue": 0,
+            "ExtraFeatureValue": 0,
+            "LandValue": 0,
+            "Message": null,
+            "TotalValue": 153990,
+            "Year": 2016
+        }, {
+            "AssessedValue": 140040,
+            "BuildingOnlyValue": 0,
+            "ExtraFeatureValue": 0,
+            "LandValue": 0,
+            "Message": null,
+            "TotalValue": 140040,
+            "Year": 2015
+        } ],
+        "Messages": [ {
+            "Message": "2017IMPORTANT NOTICE: The assessment and exemption values currently shown are preliminary and are subject to change until they are certified on July 1.",
+            "Year": 2017
+        }, {
+            "Message": "",
+            "Year": 2016
+        }, {
+            "Message": "",
+            "Year": 2015
+        } ]
+    },
+    "Benefit": {
+        "BenefitInfos": [ {
+            "Description": "Save Our Homes Cap",
+            "Message": null,
+            "Seq": "4",
+            "TaxYear": 2017,
+            "Type": "Assessment Reduction",
+            "Url": "http://www.miamidade.gov/pa/amendment_10.asp",
+            "Value": 10009
+        }, {
+            "Description": "Save Our Homes Cap",
+            "Message": null,
+            "Seq": "4",
+            "TaxYear": 2016,
+            "Type": "Assessment Reduction",
+            "Url": "http://www.miamidade.gov/pa/amendment_10.asp",
+            "Value": 12970
+        }, {
+            "Description": "Homestead",
+            "Message": null,
+            "Seq": "5",
+            "TaxYear": 2017,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_homestead.asp",
+            "Value": 25000
+        }, {
+            "Description": "Homestead",
+            "Message": null,
+            "Seq": "5",
+            "TaxYear": 2016,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_homestead.asp",
+            "Value": 25000
+        }, {
+            "Description": "Homestead",
+            "Message": null,
+            "Seq": "5",
+            "TaxYear": 2015,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_homestead.asp",
+            "Value": 25000
+        }, {
+            "Description": "Second Homestead",
+            "Message": null,
+            "Seq": "10",
+            "TaxYear": 2017,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_homestead_additional.asp",
+            "Value": 25000
+        }, {
+            "Description": "Second Homestead",
+            "Message": null,
+            "Seq": "10",
+            "TaxYear": 2016,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_homestead_additional.asp",
+            "Value": 25000
+        }, {
+            "Description": "Second Homestead",
+            "Message": null,
+            "Seq": "10",
+            "TaxYear": 2015,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_homestead_additional.asp",
+            "Value": 25000
+        }, {
+            "Description": "Civilian Disability",
+            "Message": null,
+            "Seq": "140",
+            "TaxYear": 2017,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_disabilities.asp",
+            "Value": 500
+        }, {
+            "Description": "Civilian Disability",
+            "Message": null,
+            "Seq": "140",
+            "TaxYear": 2016,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_disabilities.asp",
+            "Value": 500
+        }, {
+            "Description": "Civilian Disability",
+            "Message": null,
+            "Seq": "140",
+            "TaxYear": 2015,
+            "Type": "Exemption",
+            "Url": "http://www.miamidade.gov/pa/exemptions_disabilities.asp",
+            "Value": 500
+        } ],
+        "Messages": []
+    },
+    "Building": {
+        "BuildingInfos": [],
+        "Messages": []
+    },
+    "ClassifiedAgInfo": {
+        "Acreage": 0,
+        "CalculatedValue": 0,
+        "LandCode": null,
+        "LandUse": null,
+        "Message": null,
+        "UnitPrice": 0
+    },
+    "Completed": true,
+    "District": 7,
+    "ExtraFeature": {
+        "ExtraFeatureInfos": [],
+        "Messages": []
+    },
+    "GeoParcel": null,
+    "Land": {
+        "Landlines": [],
+        "Messages": []
+    },
+    "LegalDescription": {
+        "Description": "MANDARIN LAKES|PB 163-40                 T-21633|LOT 8 BLK 42|LOT SIZE 2920 SQ FT|COC 25618-4046 04 2007 1",
+        "Message": null,
+        "Number": null
+    },
+    "MailingAddress": {
+        "Address1": "27278 SW 143 AVE",
+        "Address2": "",
+        "Address3": "",
+        "City": "HOMESTEAD",
+        "Country": "USA",
+        "Message": null,
+        "State": "FL",
+        "ZipCode": "33032"
+    },
+    "Message": "",
+    "OwnerInfos": [ {
+        "Description": "",
+        "MarriedFlag": "S",
+        "Message": null,
+        "Name": "JEFFREY OLIVER DAVIS JTRS",
+        "PercentageOwn": 0,
+        "Role": null,
+        "ShortDescription": "",
+        "TenancyCd": "\u0000"
+    }, {
+        "Description": "",
+        "MarriedFlag": "S",
+        "Message": null,
+        "Name": "JONATHAN DALE ANDERSON JTRS",
+        "PercentageOwn": 0,
+        "Role": null,
+        "ShortDescription": "",
+        "TenancyCd": "\u0000"
+    } ],
+    "PropertyInfo": {
+        "BathroomCount": 2,
+        "BedroomCount": 3,
+        "BuildingActualArea": 2245,
+        "BuildingBaseArea": 0,
+        "BuildingEffectiveArea": 1850,
+        "BuildingGrossArea": 2245,
+        "BuildingHeatedArea": 1850,
+        "DORCode": "0410",
+        "DORDescription": "RESIDENTIAL - TOTAL VALUE : TOWNHOUSE",
+        "DORDescriptionCurrent": null,
+        "EncodedFolioAndTaxYear": "d0OUxLaIgJ%2fXk8op3Nz9sr1yMtKxrVDPw5EUiyNG3vs%3d",
+        "FloorCount": 2,
+        "FolioNumber": "30-6934-021-3320",
+        "HalfBathroomCount": 1,
+        "HxBaseYear": 2015,
+        "LotSize": 2920,
+        "Message": null,
+        "Municipality": "Unincorporated County",
+        "Neighborhood": 0,
+        "NeighborhoodDescription": "UNCLASSIFIED NEIGHBORHOOD",
+        "ParentFolio": "",
+        "PercentHomesteadCapped": 100,
+        "PlatBook": "163",
+        "PlatPage": "40",
+        "PrimaryZone": "4802",
+        "PrimaryZoneDescription": "TRADITIONAL NBHD DISTRICT",
+        "ShowCurrentValuesFlag": "Y",
+        "Status": "AC Active",
+        "Subdivision": "306934021",
+        "SubdivisionDescription": "MANDARIN LAKES",
+        "UnitCount": 1,
+        "YearBuilt": 2007
+    },
+    "RollYear1": 2017,
+    "SalesInfos": [ {
+        "DateOfSale": "6/20/2014",
+        "DocumentStamps": 0,
+        "EncodedRecordBookAndPage": "lHVlhHQhIZoJRUYKiXnhi2JN3UXNB71stP7s%2bRDj4tpIJekRvMh97A%3d%3d",
+        "GranteeName1": "JEFFERY OLIVER DAVIS",
+        "GranteeName2": "",
+        "GrantorName1": "FEDERAL HOME LOAN MORTGAGE CORP",
+        "GrantorName2": "",
+        "Message": null,
+        "OfficialRecordBook": "29220",
+        "OfficialRecordPage": "2075",
+        "QualificationDescription": "Financial inst or \"In Lieu of Forclosure\" stated",
+        "QualifiedFlag": "U",
+        "QualifiedSYear": null,
+        "QualifiedSourceCode": "",
+        "ReasonCode": "12",
+        "ReviewCode": null,
+        "SaleId": 5,
+        "SaleInstrument": "DEE",
+        "SalePrice": 140000,
+        "VacantFlag": "\u0000",
+        "ValidCode": null,
+        "VerifyCode": null
+    }, {
+        "DateOfSale": "10/28/2013",
+        "DocumentStamps": 0,
+        "EncodedRecordBookAndPage": "lHVlhHQhIZoJRUYKiXnhi9NfBkaLJ9eYYNiRrOFo%2f5jbD4OHA1NaHQ%3d%3d",
+        "GranteeName1": "FEDERAL HOME LOAN MORTGAGE CORP",
+        "GranteeName2": "",
+        "GrantorName1": "JPMORGAN CHASE BANK N A",
+        "GrantorName2": "",
+        "Message": null,
+        "OfficialRecordBook": "29172",
+        "OfficialRecordPage": "1203",
+        "QualificationDescription": "Financial inst or \"In Lieu of Forclosure\" stated",
+        "QualifiedFlag": "U",
+        "QualifiedSYear": null,
+        "QualifiedSourceCode": "",
+        "ReasonCode": "12",
+        "ReviewCode": null,
+        "SaleId": 4,
+        "SaleInstrument": "DEE",
+        "SalePrice": 100,
+        "VacantFlag": "\u0000",
+        "ValidCode": null,
+        "VerifyCode": null
+    }, {
+        "DateOfSale": "8/21/2013",
+        "DocumentStamps": 0,
+        "EncodedRecordBookAndPage": "lHVlhHQhIZoJRUYKiXnhi5ZrcDQskDPd3RPZepyHxVrHZgktcjdR%2fQ%3d%3d",
+        "GranteeName1": "JPMORGAN CHASE BANK N A",
+        "GranteeName2": "",
+        "GrantorName1": "JOHN G COOK",
+        "GrantorName2": "",
+        "Message": null,
+        "OfficialRecordBook": "28817",
+        "OfficialRecordPage": "2039",
+        "QualificationDescription": "Financial inst or \"In Lieu of Forclosure\" stated",
+        "QualifiedFlag": "U",
+        "QualifiedSYear": null,
+        "QualifiedSourceCode": "",
+        "ReasonCode": "12",
+        "ReviewCode": null,
+        "SaleId": 3,
+        "SaleInstrument": "CTI",
+        "SalePrice": 1100,
+        "VacantFlag": "\u0000",
+        "ValidCode": null,
+        "VerifyCode": null
+    }, {
+        "DateOfSale": "4/1/2006",
+        "DocumentStamps": 0,
+        "EncodedRecordBookAndPage": "lHVlhHQhIZoJRUYKiXnhi5S6PpDPiMlLRpGHAjmlNUFXLpQUAscKTw%3d%3d",
+        "GranteeName1": "",
+        "GranteeName2": "",
+        "GrantorName1": "",
+        "GrantorName2": "",
+        "Message": null,
+        "OfficialRecordBook": "24441",
+        "OfficialRecordPage": "4112",
+        "QualificationDescription": "Deeds that include more than one parcel",
+        "QualifiedFlag": "Q",
+        "QualifiedSYear": null,
+        "QualifiedSourceCode": "",
+        "ReasonCode": "02",
+        "ReviewCode": null,
+        "SaleId": 2,
+        "SaleInstrument": "",
+        "SalePrice": 13203945,
+        "VacantFlag": "\u0000",
+        "ValidCode": null,
+        "VerifyCode": null
+    }, {
+        "DateOfSale": "4/1/2007",
+        "DocumentStamps": 0,
+        "EncodedRecordBookAndPage": "lHVlhHQhIZoJRUYKiXnhiw55CLNWEXaIMQFTEOzA%2bGlolVBkJU2uig%3d%3d",
+        "GranteeName1": "",
+        "GranteeName2": "",
+        "GrantorName1": "",
+        "GrantorName2": "",
+        "Message": null,
+        "OfficialRecordBook": "25618",
+        "OfficialRecordPage": "4046",
+        "QualificationDescription": "Sales which are qualified",
+        "QualifiedFlag": "Q",
+        "QualifiedSYear": null,
+        "QualifiedSourceCode": "",
+        "ReasonCode": "00",
+        "ReviewCode": null,
+        "SaleId": 1,
+        "SaleInstrument": "",
+        "SalePrice": 237600,
+        "VacantFlag": "\u0000",
+        "ValidCode": null,
+        "VerifyCode": null
+    } ],
+    "SiteAddress": [ {
+        "Address": "27278 SW 143 AVE, Unincorporated County, FL 33032-8863",
+        "BuildingNumber": 1,
+        "City": "Unincorporated County",
+        "Message": null,
+        "StreetName": "143",
+        "StreetNumber": 27278,
+        "StreetPrefix": "SW",
+        "StreetSuffix": "AVE",
+        "StreetSuffixDirection": "",
+        "Unit": "",
+        "Zip": "33032-8863"
+    } ],
+    "Taxable": {
+        "Messages": [],
+        "TaxableInfos": [ {
+            "CityExemptionValue": 0,
+            "CityTaxableValue": 0,
+            "CountyExemptionValue": 50500,
+            "CountyTaxableValue": 93481,
+            "Message": null,
+            "RegionalExemptionValue": 50500,
+            "RegionalTaxableValue": 93481,
+            "SchoolExemptionValue": 25500,
+            "SchoolTaxableValue": 118481,
+            "Year": 2017
+        }, {
+            "CityExemptionValue": 0,
+            "CityTaxableValue": 0,
+            "CountyExemptionValue": 50500,
+            "CountyTaxableValue": 90520,
+            "Message": null,
+            "RegionalExemptionValue": 50500,
+            "RegionalTaxableValue": 90520,
+            "SchoolExemptionValue": 25500,
+            "SchoolTaxableValue": 115520,
+            "Year": 2016
+        }, {
+            "CityExemptionValue": 0,
+            "CityTaxableValue": 0,
+            "CountyExemptionValue": 50500,
+            "CountyTaxableValue": 89540,
+            "Message": null,
+            "RegionalExemptionValue": 50500,
+            "RegionalTaxableValue": 89540,
+            "SchoolExemptionValue": 25500,
+            "SchoolTaxableValue": 114540,
+            "Year": 2015
+        } ]
+    }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "miami-dade-property-scraper",
+  "version": "0.0.0",
+  "description": "My stylish module",
+  "license": "MIT",
+  "repository": "nperez0111/miami-dade-property-scraper",
+  "author": {
+    "name": "Nick The Sick",
+    "email": "nperez0111@gmail.com",
+    "url": "nickthesick.com"
+  },
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "test": "xo && ava"
+  },
+  "files": [
+    "index.js",
+    "cli.js"
+  ],
+  "keywords": [
+    "cli-app",
+    "cli",
+    ""
+  ],
+  "dependencies": {
+    "got": "^7.0.0",
+    "load-json-file": "^2.0.0",
+    "meow": "^3.7.0",
+    "merge-obj": "0.0.3",
+    "msexcel-builder-protobi": "^0.3.2",
+    "object-manip": "^1.2.4",
+    "proxify-objects": "0.0.5",
+    "query-string": "^4.3.4",
+    "write-json-file": "^2.2.0"
+  },
+  "devDependencies": {
+    "ava": "^0.17.0",
+    "xo": "^0.17.0"
+  }
+}
