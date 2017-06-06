@@ -24,12 +24,12 @@ const excel = {
                 "Company Name",
                 "Address 1",
                 "Address 2",
-                "Address 3"
+                "Address 3",
                 "City",
                 "State",
                 "Zip"
             ],
-            // columns and 12 rows
+            // columns then rows
             sheet = workbook.createSheet( title, headers.length, data.length );
 
         headers.forEach( ( cur, i ) => {

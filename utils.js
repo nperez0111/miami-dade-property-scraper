@@ -128,15 +128,13 @@ const search = {
     },
     transformSearchResults: obj => {
         return manip( {
-            PropertyInfo: [ 'property', function ( cur, i ) {
-
-                return cur
-            } ],
             SiteAddress: [ 'site', function ( cur ) {
                 return cur
             } ],
             MailingAddress: 'mail',
-            OwnerInfos: 'owners'
+            OwnerInfos: [ 'owners', function ( owners ) {
+                return owners //.Name
+            } ]
         }, obj )
     },
     getFolios: memoize( () => {
