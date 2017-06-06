@@ -82,8 +82,8 @@ const folio = {
             }
         }, obj )
     },
-    run: () =>
-        folio.getSearchResults().then( obj => {
+    run: filetype =>
+        folio.getSearchResults( filetype ).then( obj => {
             //console.log( obj )
             const ret = folio.transformSearchResults( obj )
                 //console.log( ret.results )
@@ -110,8 +110,8 @@ const search = {
         } )
     } ),
     loadSearchResults: memoize( () => loadJson( 'result2.json' ) ),
-    run: () => {
-        /*search.getFolios().then( folios => {
+    run: ( filetype ) => {
+        /*search.getFolios(filetype).then( folios => {
             console.log( folios )
             return folios.map( folio => {
                 const cookie = search.getCookie()
@@ -121,11 +121,15 @@ const search = {
                 } )
             } )
         } )*/
-        search.loadSearchResults().then( output => {
-            console.log( JSON.stringify( search.transformSearchResults( output ), ( a, b ) => b, 2 ) )
+        return search.loadSearchResults().then( output => {
+            const obj = search.addMissing( search.transformSearchResults( output ), filetype )
+            console.log( JSON.stringify( obj, ( a, b ) => b, 2 ) )
+
+            return obj
         } )
 
     },
+    addMissing: ( obj, filetype ) => obj,
     transformSearchResults: obj => {
         return manip( {
             SiteAddress: [ 'site', function ( cur ) {
@@ -137,8 +141,8 @@ const search = {
             } ]
         }, obj )
     },
-    getFolios: memoize( () => {
-        return folio.run().then( folios => folios.map( folio => folio.folio ) )
+    getFolios: memoize( ( filetype ) => {
+        return folio.run( filetype ).then( folios => folios.map( folio => folio.folio ) )
     } )
 }
 
