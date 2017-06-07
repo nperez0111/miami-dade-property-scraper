@@ -1,0 +1,30 @@
+{
+    "startDate": {
+        "year": 2017,
+        "month": 4,
+        "explainMonth": "Month is zero based AKA 0=January,1=February,...11=December",
+        "day": 7
+    },
+    "endDate": {
+        "year": 2017,
+        "month": 6,
+        "day": 6,
+        "useCurrentDate": true,
+        "explainUseCurrentDate": "will ignore the date you put in and will use the current date instead"
+    },
+    "possibleFiles": [
+        "Consent Agreement",
+        "Court",
+        "Enforcement Letter",
+        "Enforcement Notice",
+        "Final Notice Prior",
+        "UCVN"
+    ],
+    "selection": [
+        2
+    ],
+    "explainSelection": "Is A List of the numbers of the files as they appear in 'possibleFiles' so 0 means Search Consent Agreement",
+
+    "selectFiles": true,
+    "explainSelectFiles": "if true will only search the files specified in 'selection' if false will search all files"
+}

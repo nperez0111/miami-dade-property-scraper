@@ -10,7 +10,7 @@ const queryString = require( 'query-string' ),
 
 const error = err => { console.error( err ) },
     get = memoize( function ( url, cookie, bool ) {
-        console.log( 'ran' )
+        //console.log( 'ran' )
         const ops = {
             Cookie: cookie || null,
             "User-Agent": `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36`,
@@ -96,6 +96,7 @@ const folio = {
     },
     run: filetype =>
         folio.getSearchResults( filetype ).then( obj => {
+
             ///console.log( obj.results )
             const ret = folio.transformSearchResults( obj )
                 //console.log( ret.results )
@@ -123,16 +124,18 @@ const search = {
     } ),
     loadSearchResults: memoize( () => loadJson( 'result2.json' ) ),
     run: ( filetype ) => {
-        return search.getFolios( filetype ).then( folios => {
-            //console.log( folios )
-            const cookie = search.getCookie()
-            return folios.map( folio => {
-                return search.getSearchResults( folio, cookie ).then( output => {
-                    return search.addMissing( search.transformSearchResults( output ), filetype, folio ).then( obj => {
-                        console.log( JSON.stringify( obj, ( a, b ) => b, 2 ) )
 
-                        return obj
-                    } ).catch( error )
+        return search.getFolios( filetype ).then( arr => {
+            //console.log( folios )
+            const foliosNums = arr[ 0 ],
+                folios = arr[ 1 ]
+            const cookie = search.getCookie()
+            return foliosNums.map( ( folio, i ) => {
+                return search.getSearchResults( folio, cookie ).then( output => {
+
+                    const result = search.addMissing( search.transformSearchResults( output ), filetype, folios[ i ] )
+                        //console.log( JSON.stringify( result, ( a, b ) => b, 2 ) )
+                    return result
 
                 } ).catch( error )
             } )
@@ -144,13 +147,14 @@ const search = {
             obj.owners = obj.owners.join( " & " )
         }
 
-        return search.transformFolios( folio ).then( transformedFolios => {
-            return [
-                transformedFolios[ 0 ],
-                obj.owners,
-                transformedFolios[ 1 ]
-            ].concat( obj.siteAddress[ 0 ] ).concat( obj.mailingAddress ).map( a => a || "" )
-        } )
+        const transformedFolios = search.transformFolios( folio )
+
+
+        return [
+            transformedFolios[ 0 ],
+            obj.owners,
+            transformedFolios[ 1 ]
+        ].concat( obj.siteAddress[ 0 ] ).concat( obj.mailingAddress ).map( a => a || "" )
 
 
 
@@ -170,16 +174,17 @@ const search = {
         }, obj )
     },
     getFolios: memoize( ( filetype ) => {
-        return folio.run( filetype ).then( folios => folios.map( folio => folio.folio ) )
+        return folio.run( filetype ).then( folios => {
+            return [ folios.map( folio => folio.folio ), folios ]
+        } )
     } ),
     transformFolios: foli => {
-        return folio.run( foli ).then( f => {
-            //console.log( f )
-            if ( !Array.isArray( f.name ) ) {
-                f.name = [ f.name ]
-            }
-            return [ f.caseNumber, f.name.join( " & " ) ]
-        } )
+
+        if ( !Array.isArray( foli.name ) ) {
+            foli.name = [ foli.name ]
+        }
+        return [ foli.caseNumber, foli.name.join( " & " ) ]
+
 
     }
 }
@@ -219,9 +224,11 @@ const titles = [
             } )
 
             data.forEach( ( cur, r ) => {
-                cur.forEach( ( val, c ) => {
-                    sheet.set( c + 1, r + 2, val )
-                } )
+                if ( Array.isArray( cur ) ) {
+                    cur.forEach( ( val, c ) => {
+                        sheet.set( c + 1, r + 2, val )
+                    } )
+                }
             } )
         },
         saveWorkBook: ( workbook ) => {
