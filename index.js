@@ -9,9 +9,8 @@ const queryString = require( 'query-string' ),
     workbook = excelbuilder.createWorkbook( './', ( "sample" || ( new Date() ).toDateString() ) + '.xlsx' )
 
 
-search.run()
-
-const titles = [ "Consent Agreement",
+const titles = [
+        "Consent Agreement",
         "Court",
         "Enforcement Letter",
         "Enforcement Notice",
@@ -24,22 +23,21 @@ const titles = [ "Consent Agreement",
         addSheet: ( title, data ) => {
             const headers = [
                     "Case Number",
-                    "Document Type",
-                    "First Name",
-                    "Middle Name",
-                    "Last Name",
-                    "Suffix",
-                    "Title",
+                    "Owners Name(s)",
                     "Company Name",
-                    "Address 1",
-                    "Address 2",
-                    "Address 3",
+                    "Property Address 1",
+                    "Property Address 2",
+                    "City",
+                    "State",
+                    "Zip",
+                    "Mailing Address 1",
+                    "Mailing Address 2",
                     "City",
                     "State",
                     "Zip"
                 ],
                 // columns then rows
-                sheet = workbook.createSheet( title, headers.length, data.length );
+                sheet = workbook.createSheet( title, headers.length, data.length + 1 );
 
             headers.forEach( ( cur, i ) => {
                 sheet.set( i + 1, 1, cur )
@@ -47,7 +45,7 @@ const titles = [ "Consent Agreement",
 
             data.forEach( ( cur, r ) => {
                 cur.forEach( ( val, c ) => {
-                    sheet.set( r + 2, c + 1, val )
+                    sheet.set( c + 1, r + 2, val )
                 } )
             } )
         },
@@ -70,3 +68,15 @@ const titles = [ "Consent Agreement",
         }
 
     }
+
+Promise.all( titles.map( title => {
+    console.log( title )
+    return search.run( title ).then( arr => {
+        return Promise.all( arr ).then( data => {
+            excel.addSheet( title, data )
+        } ).catch( err => { console.log( err ) } )
+    } )
+} ) ).then( allDone => {
+    console.log( 'attempt save' )
+    excel.saveWorkBook()
+} ).catch( err => { console.log( err ) } )

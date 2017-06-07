@@ -32,12 +32,19 @@ const get = memoize( function ( url, cookie, bool ) {
 
 const folio = {
     buildUrl: memoize( input => {
+        const endDate = new Date(),
+            startDate = new Date()
+        startDate.setDate( endDate.getDate() - 1 )
+        startDate.setUTCHours( 0, 0 )
+        endDate.setUTCHours( 12, 59 )
+        console.log( Number( startDate ) )
+        console.log( Number( endDate ) )
         const defaultObj = {
-                query: 'CONSENT AGREEMENT',
-                startDate: 1494388800000,
-                endDate: 1496721599999
+                query: input || 'COURT',
+                startDate: Number( startDate ),
+                endDate: Number( endDate )
             },
-            obj = merge( defaultObj, input || {} ),
+            obj = merge( defaultObj, {} ),
             baseUrl = 'http://ecmrer.miamidade.gov:8080/OpenContent/rest/query/search?',
             params = {
                 'logic[]': ' and ',
@@ -74,7 +81,7 @@ const folio = {
                     cs_unit: 'unit',
                     ct_application: 'application',
                     objectId: 'ID',
-                    objectName: 'name',
+                    objectName: 'objName',
                     objectType: 'type',
                     solr_file_path: 'filePath',
                     subject: 'subject'
@@ -84,9 +91,9 @@ const folio = {
     },
     run: filetype =>
         folio.getSearchResults( filetype ).then( obj => {
-            //console.log( obj )
+            console.log( obj.results )
             const ret = folio.transformSearchResults( obj )
-                //console.log( ret.results )
+            console.log( ret.results )
             return ret.results
         } )
 
@@ -113,37 +120,76 @@ const search = {
     run: ( filetype ) => {
         /*search.getFolios(filetype).then( folios => {
             console.log( folios )
+            const cookie = search.getCookie()
             return folios.map( folio => {
-                const cookie = search.getCookie()
+                
                 return search.getSearchResults( folio, cookie ).then( output => {
                     console.log( JSON.stringify( output, ( a, b ) => b, 2 ) )
                     return output
                 } )
             } )
         } )*/
-        return search.loadSearchResults().then( output => {
-            const obj = search.addMissing( search.transformSearchResults( output ), filetype )
-            console.log( JSON.stringify( obj, ( a, b ) => b, 2 ) )
+        return search.getFolios( filetype ).then( folios => {
+            console.log( folios )
+            const cookie = search.getCookie()
+            return folios.map( folio => {
+                return search.getSearchResults( folio, cookie ).then( output => {
+                    return search.addMissing( search.transformSearchResults( output ), filetype, folio ).then( obj => {
+                        console.log( JSON.stringify( obj, ( a, b ) => b, 2 ) )
 
-            return obj
+                        return obj
+                    } ).catch( err => { console.log( err ) } )
+
+                } ).catch( err => { console.log( err ) } )
+            } )
+        } ).catch( err => {
+            console.log( err )
         } )
 
     },
-    addMissing: ( obj, filetype ) => obj,
+    addMissing: ( obj, filetype, folio ) => {
+        if ( Array.isArray( obj.owners ) ) {
+            obj.owners = obj.owners.join( " & " )
+        }
+
+        return search.transformFolios( folio ).then( transformedFolios => {
+            return [
+                transformedFolios[ 0 ],
+                obj.owners,
+                transformedFolios[ 1 ]
+            ].concat( obj.siteAddress[ 0 ] ).concat( obj.mailingAddress ).map( a => a || "" )
+        } )
+
+
+
+    },
     transformSearchResults: obj => {
         return manip( {
-            SiteAddress: [ 'site', function ( cur ) {
-                return cur
+            SiteAddress: [ 'siteAddress', function ( cur ) {
+                //addr line 1, addr line 2, city, state, zip
+                return [ `${cur.StreetNumber||""} ${cur.StreetPrefix||""} ${cur.StreetName||""} ${cur.StreetSuffix||""}`, `${cur.unit||""}`, cur.City || "", "FL", cur.Zip || "" ]
+
             } ],
-            MailingAddress: 'mail',
-            OwnerInfos: [ 'owners', function ( owners ) {
-                return owners //.Name
-            } ]
+            MailingAddress: [ 'mailingAddress', function ( a ) {
+                //addr line 1, addr line 2, city, state, zip
+                return [ a.Address1, a.Address2, a.City, a.State, a.Zip ].map( a => a || "" )
+            } ],
+            OwnerInfos: [ 'owners', owner => owner.Name ]
         }, obj )
     },
     getFolios: memoize( ( filetype ) => {
         return folio.run( filetype ).then( folios => folios.map( folio => folio.folio ) )
-    } )
+    } ),
+    transformFolios: foli => {
+        return folio.run( foli ).then( f => {
+            console.log( f )
+            if ( !Array.isArray( f.name ) ) {
+                f.name = [ f.name ]
+            }
+            return [ f.caseNumber, f.name.join( " & " ) ]
+        } )
+
+    }
 }
 
 module.exports = {
