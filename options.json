@@ -21,7 +21,7 @@
         "UCVN"
     ],
     "selection": [
-        2
+        2, 0, 1
     ],
     "explainSelection": "Is A List of the numbers of the files as they appear in 'possibleFiles' so 0 means Search Consent Agreement",
 
