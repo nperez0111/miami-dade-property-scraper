@@ -8,26 +8,27 @@ const queryString = require( 'query-string' ),
     makeProxy = require( 'proxify-objects' ),
     memoize = require( 'lodash.memoize' )
 
-const get = memoize( function ( url, cookie, bool ) {
-    console.log( 'ran' )
-    const ops = {
-        Cookie: cookie || null,
-        "User-Agent": `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36`,
-        Accept: "application/json, text/plain, */*",
-        Referer: "http://www.miamidade.gov/propertysearch/"
-    }
-    return got( url, {
-            headers: bool ? ops : {
-                Cookie: cookie || null
-            }
-        } )
-        .then( resp => resp.body )
-        .then( resp => JSON.parse( resp ) )
-        .catch( err => {
-            console.error( "CHECK YOUR INTERNET CONNECTION" )
-            console.log( err )
-        } )
-} )
+const error = err => { console.error( err ) },
+    get = memoize( function ( url, cookie, bool ) {
+        console.log( 'ran' )
+        const ops = {
+            Cookie: cookie || null,
+            "User-Agent": `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36`,
+            Accept: "application/json, text/plain, */*",
+            Referer: "http://www.miamidade.gov/propertysearch/"
+        }
+        return got( url, {
+                headers: bool ? ops : {
+                    Cookie: cookie || null
+                }
+            } )
+            .then( resp => resp.body )
+            .then( resp => JSON.parse( resp ) )
+            .catch( err => {
+                console.error( "CHECK YOUR INTERNET CONNECTION" )
+                console.log( err )
+            } )
+    } )
 
 
 const folio = {
@@ -37,14 +38,18 @@ const folio = {
         startDate.setDate( endDate.getDate() - 1 )
         startDate.setUTCHours( 0, 0 )
         endDate.setUTCHours( 12, 59 )
-        console.log( Number( startDate ) )
-        console.log( Number( endDate ) )
+
+        //console.log( Number( startDate ) )
+        //console.log( Number( endDate ) )
+        if ( typeof input == 'string' ) {
+            input = { query: input }
+        }
         const defaultObj = {
-                query: input || 'COURT',
+                query: 'COURT',
                 startDate: Number( startDate ),
                 endDate: Number( endDate )
             },
-            obj = merge( defaultObj, {} ),
+            obj = merge( defaultObj, input ),
             baseUrl = 'http://ecmrer.miamidade.gov:8080/OpenContent/rest/query/search?',
             params = {
                 'logic[]': ' and ',
@@ -91,11 +96,11 @@ const folio = {
     },
     run: filetype =>
         folio.getSearchResults( filetype ).then( obj => {
-            console.log( obj.results )
+            ///console.log( obj.results )
             const ret = folio.transformSearchResults( obj )
-            console.log( ret.results )
+                //console.log( ret.results )
             return ret.results
-        } )
+        } ).catch( error )
 
 }
 
@@ -103,9 +108,9 @@ const search = {
     getCookie: memoize( () => {
         return got( 'http://www.miamidade.gov/propertysearch/#/' )
             .then( resp => resp.headers[ 'set-cookie' ] ).then( cookie => {
-                console.log( cookie )
+                //console.log( cookie )
                 return cookie[ 0 ].split( ';' )[ 0 ]
-            } )
+            } ).catch( error )
     } ),
     buildUrl: memoize( input => {
         const folio = input || 3069340213320
@@ -118,19 +123,8 @@ const search = {
     } ),
     loadSearchResults: memoize( () => loadJson( 'result2.json' ) ),
     run: ( filetype ) => {
-        /*search.getFolios(filetype).then( folios => {
-            console.log( folios )
-            const cookie = search.getCookie()
-            return folios.map( folio => {
-                
-                return search.getSearchResults( folio, cookie ).then( output => {
-                    console.log( JSON.stringify( output, ( a, b ) => b, 2 ) )
-                    return output
-                } )
-            } )
-        } )*/
         return search.getFolios( filetype ).then( folios => {
-            console.log( folios )
+            //console.log( folios )
             const cookie = search.getCookie()
             return folios.map( folio => {
                 return search.getSearchResults( folio, cookie ).then( output => {
@@ -138,13 +132,11 @@ const search = {
                         console.log( JSON.stringify( obj, ( a, b ) => b, 2 ) )
 
                         return obj
-                    } ).catch( err => { console.log( err ) } )
+                    } ).catch( error )
 
-                } ).catch( err => { console.log( err ) } )
+                } ).catch( error )
             } )
-        } ).catch( err => {
-            console.log( err )
-        } )
+        } ).catch( error )
 
     },
     addMissing: ( obj, filetype, folio ) => {
@@ -182,7 +174,7 @@ const search = {
     } ),
     transformFolios: foli => {
         return folio.run( foli ).then( f => {
-            console.log( f )
+            //console.log( f )
             if ( !Array.isArray( f.name ) ) {
                 f.name = [ f.name ]
             }
@@ -192,8 +184,78 @@ const search = {
     }
 }
 
+const titles = [
+        "Consent Agreement",
+        "Court",
+        "Enforcement Letter",
+        "Enforcement Notice",
+        "Final Notice Prior",
+        "UCVN"
+    ],
+    headers = [
+        "Case Number",
+        "Owners Name(s)",
+        "Company Name",
+        "Property Address 1",
+        "Property Address 2",
+        "City",
+        "State",
+        "Zip",
+        "Mailing Address 1",
+        "Mailing Address 2",
+        "City",
+        "State",
+        "Zip"
+    ],
+    excel = {
+        titles: titles,
+        documents: titles.map( c => c.toUpperCase() ),
+        addSheet: ( title, data, workbook ) => {
+            const sheet = workbook.createSheet( title, headers.length, data.length + 1 )
+                // columns then rows
+
+            headers.forEach( ( cur, i ) => {
+                sheet.set( i + 1, 1, cur )
+            } )
+
+            data.forEach( ( cur, r ) => {
+                cur.forEach( ( val, c ) => {
+                    sheet.set( c + 1, r + 2, val )
+                } )
+            } )
+        },
+        saveWorkBook: ( workbook ) => {
+            // Save it
+            workbook.save( function ( err ) {
+                if ( err )
+                    throw err
+                else
+                    console.log( 'congratulations, your workbook created' )
+            } )
+        },
+        run: ( workbook, dateRange ) => {
+
+            Promise.all( titles.map( title => {
+                //console.log( title )
+                const query = merge( { query: title }, dateRange || {} )
+
+                return search.run( query ).then( arr => {
+                    return Promise.all( arr ).then( data => {
+                        excel.addSheet( title, data, workbook )
+                    } ).catch( error )
+                } )
+            } ) ).then( allDone => {
+                console.log( 'attempt save' )
+                excel.saveWorkBook( workbook )
+            } ).catch( error )
+        }
+
+    }
+
 module.exports = {
     get,
     folio,
-    search
+    search,
+    titles,
+    excel
 }
