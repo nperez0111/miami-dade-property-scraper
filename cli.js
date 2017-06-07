@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-'use strict';
-const meow = require('meow');
-const miamiDadePropertyScraper = require('.');
 
-const cli = meow(`
+'use strict';
+const meow = require( 'meow' );
+const miamiDadePropertyScraper = require( '.' );
+
+const cli = meow( `
 	Usage
-	  $ miami-dade-property-scraper [input]
+	  $ scrape [input]
 
 	Options
 	  --foo  Lorem ipsum [Default: false]
@@ -15,6 +16,6 @@ const cli = meow(`
 	  unicorns & rainbows
 	  $ miami-dade-property-scraper ponies
 	  ponies & rainbows
-`);
+` );
 
-console.log(miamiDadePropertyScraper(cli.input[0] || 'unicorns'));
+console.log( miamiDadePropertyScraper( cli.input[ 0 ] || 'unicorns' ) );

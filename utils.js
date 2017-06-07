@@ -233,9 +233,9 @@ const titles = [
                     console.log( 'congratulations, your workbook created' )
             } )
         },
-        run: ( workbook, dateRange ) => {
+        run: ( workbook, dateRange, inpu ) => {
 
-            Promise.all( titles.map( title => {
+            Promise.all( ( inpu || titles ).map( title => {
                 //console.log( title )
                 const query = merge( { query: title }, dateRange || {} )
 
