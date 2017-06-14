@@ -125,30 +125,30 @@ const search = {
         const folio = input || 3069340213320
         return `http://www.miamidade.gov/PApublicServiceProxy/PaServicesProxy.ashx?Operation=GetPropertySearchByFolio&clientAppName=PropertySearch&folioNumber=${folio}`
     } ),
-    getSearchResults: memoize( ( input, cookiePromise ) => {
-        return cookiePromise.then( cookie => {
-            return get( search.buildUrl( input ), cookie, true )
-        } )
+    getSearchResults: memoize( async function ( input, cookiePromise ) {
+        const cookie = await cookiePromise
+
+        return get( search.buildUrl( input ), cookie, true )
     } ),
     loadSearchResults: memoize( () => loadJson( 'result2.json' ) ),
-    run: ( filetype ) => {
+    run: async function ( filetype ) {
 
-        return search.getFolios( filetype ).then( arr => {
+        const gotFolios = await search.getFolios( filetype )
             //log( folios )
-            const foliosNums = arr[ 0 ],
-                folios = arr[ 1 ]
-            const cookie = search.getCookie()
-            return foliosNums.map( ( folio, i ) => {
-                return search.getSearchResults( folio, cookie ).then( output => {
+        const folioNumbers = gotFolios[ 0 ],
+            folios = gotFolios[ 1 ]
+        const cookie = search.getCookie()
 
-                    const result = search.addMissing( search.transformSearchResults( output ), filetype, folios[ i ] )
-                        //log( JSON.stringify( result, ( a, b ) => b, 2 ) )
+        return folioNumbers.map( ( folio, i ) => {
+            const output = await ( search.getSearchResults( folio, cookie ) )
 
-                    return result
+            const transformed = search.transformSearchResults( output )
 
-                } ).catch( error )
-            } )
-        } ).catch( error )
+            const result = search.addMissing( transformed, filetype, folios[ i ] )
+                //log( JSON.stringify( result, ( a, b ) => b, 2 ) )
+
+            return result
+        } )
 
     },
     addMissing: ( obj, filetype, folio ) => {
@@ -261,23 +261,24 @@ const titles = [
                     log( 'Congratulations, your workbook is created' )
             } )
         },
-        run: ( workbook, dateRange, inpu ) => {
+        run: async function ( workbook, dateRange, inpu ) {
 
-            const sheet = workbook.createSheet( "Sheet 1", headers.length, 1000 )
+            const sheet = workbook.createSheet( ( ( new Date() ).toDateString() ), headers.length, 1000 )
 
-            Promise.all( ( inpu || titles ).map( title => {
-                    //log( title )
-                    const query = merge( { query: title }, dateRange || {} )
+            const allResults = await Promise.all( ( inpu || titles ).map( title => {
+                //log( title )
+                const query = merge( { query: title }, dateRange || {} )
 
-                    return search.run( query ).then( arr => {
-                        return Promise.all( arr )
-                    } )
-                } ) )
-                .then( allResults => allResults.reduce( ( p, c ) => p.concat( c ), [] ).reduce( ( p, c ) => p.concat( c ), [] ) )
-                .then( data => {
-                    excel.addToSheet( data, sheet )
-                    excel.saveWorkBook( workbook )
-                } ).catch( error )
+                return search.run( query ).then( arr => {
+                    return Promise.all( arr )
+                } )
+            } ) )
+
+            const data = allResults.reduce( ( p, c ) => p.concat( c ), [] ).reduce( ( p, c ) => p.concat( c ), [] )
+
+            excel.addToSheet( data, sheet )
+            excel.saveWorkBook( workbook )
+
         }
 
     }
