@@ -9,7 +9,10 @@
         "email": "nperez0111@gmail.com",
         "url": "nickthesick.com"
     },
-    "bin": [ "pastDay.js", "specificDate.js" ],
+    "bin": [
+        "pastDay.js",
+        "specificDate.js"
+    ],
     "engines": {
         "node": ">=4"
     },
@@ -17,7 +20,12 @@
         "test": " ava",
         "build": "pkg -t macos,win pastday.js && pkg -t macos,win specificDate.js"
     },
-    "files": [ "pastDay.js", "specificDate.js", "utils.js", "options.json" ],
+    "files": [
+        "pastDay.js",
+        "specificDate.js",
+        "utils.js",
+        "options.json"
+    ],
     "keywords": [
         "cli-app",
         "cli",
@@ -29,7 +37,9 @@
         "lodash.memoize": "^4.1.2",
         "merge-obj": "0.0.3",
         "msexcel-builder-protobi": "^0.3.2",
+        "node-where": "^1.1.0",
         "object-manip": "^1.2.4",
+        "pify": "^3.0.0",
         "proxify-objects": "0.0.5",
         "query-string": "^4.3.4",
         "write-json-file": "^2.2.0"

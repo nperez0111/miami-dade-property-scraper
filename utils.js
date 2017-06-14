@@ -6,7 +6,9 @@ const queryString = require( 'query-string' ),
     manip = require( 'object-manip' ),
     got = require( 'got' ),
     makeProxy = require( 'proxify-objects' ),
-    memoize = require( 'lodash.memoize' )
+    memoize = require( 'lodash.memoize' ),
+    pify = require( 'pify' ),
+    where = require( 'node-where' )
 
 const log = function () {
         console.log.apply( console, Array.from( arguments ) )
@@ -94,7 +96,7 @@ const folio = {
                     cs_unit: 'unit',
                     ct_application: 'application',
                     objectId: 'ID',
-                    objectName: 'objName',
+                    objectName: 'docType',
                     objectType: 'type',
                     solr_file_path: 'filePath',
                     subject: 'subject'
@@ -114,21 +116,25 @@ const folio = {
 }
 
 const search = {
-    getCookie: memoize( () => {
-        return got( 'http://www.miamidade.gov/propertysearch/#/' )
-            .then( resp => resp.headers[ 'set-cookie' ] ).then( cookie => {
-                //log( cookie )
-                return cookie[ 0 ].split( ';' )[ 0 ]
-            } ).catch( error )
+    getCookie: memoize( async function () {
+        let cookie;
+        try {
+            cookie = await ( got( 'http://www.miamidade.gov/propertysearch/#/' )
+                .then( resp => resp.headers[ 'set-cookie' ] ) )
+        } catch ( e ) {
+            error( e )
+        }
+        //log( cookie )
+        return cookie[ 0 ].split( ';' )[ 0 ]
     } ),
     buildUrl: memoize( input => {
         const folio = input || 3069340213320
         return `http://www.miamidade.gov/PApublicServiceProxy/PaServicesProxy.ashx?Operation=GetPropertySearchByFolio&clientAppName=PropertySearch&folioNumber=${folio}`
     } ),
     getSearchResults: memoize( async function ( input, cookiePromise ) {
-        const cookie = await cookiePromise
+        const cookie = cookiePromise
 
-        return get( search.buildUrl( input ), cookie, true )
+        return get( search.buildUrl( input ), await cookie, true )
     } ),
     loadSearchResults: memoize( () => loadJson( 'result2.json' ) ),
     run: async function ( filetype ) {
@@ -139,23 +145,39 @@ const search = {
             folios = gotFolios[ 1 ]
         const cookie = search.getCookie()
 
-        return folioNumbers.map( ( folio, i ) => {
-            const output = await ( search.getSearchResults( folio, cookie ) )
+        return folioNumbers.map( async function ( folio, i ) {
+            let output;
+            try {
+                output = search.getSearchResults( folio, cookie );
+            } catch ( e ) {
+                error( e )
+            }
+            const transformed = search.transformSearchResults( ( await output ) )
 
-            const transformed = search.transformSearchResults( output )
-
-            const result = search.addMissing( transformed, filetype, folios[ i ] )
-                //log( JSON.stringify( result, ( a, b ) => b, 2 ) )
-
+            const merged = search.merge( transformed, filetype, folios[ i ] )
+            log( JSON.stringify( merged, ( a, b ) => b, 2 ) )
+            const result = await search.addMissing( merged )
             return result
         } )
 
     },
-    addMissing: ( obj, filetype, folio ) => {
+    addMissing: async function ( arr ) {
+        return Promise.all( arr.map( async function ( line ) {
+            const addr = headers.indexOf( "Address 1" )
+            const zip = headers.indexOf( "Zip" )
+            if ( line[ zip ] == "" && line[ addr ] !== "" ) {
+                //if address is not empty and zip is empty
+                const resp = await pify( where.is )( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}` )
+                line[ zip ] = resp.get( 'postalCode' )
+            }
+            return line
+        } ) )
+    },
+    merge: ( obj, filetype, folio ) => {
         if ( Array.isArray( obj.owners ) ) {
             obj.owners = obj.owners.join( " & " )
         }
-        console.log( folio )
+        //log( obj )
 
         const transformedFolios = search.transformFolios( folio )
 
@@ -204,12 +226,12 @@ const search = {
             unit: [ '' ],
             application: 1496721600000,
             ID: '0902a134837104dd',
-            objName: 'ENFORCEMENT NOTICE',
+            docType: 'ENFORCEMENT NOTICE',
             type: 'envd_dec_permit',
             filePath: '0902a134837104dd.pdf',
             subject: ''
         }
-        return [ foli.objName, foli.caseNumber, foli.name.join( " & " ) ]
+        return [ foli.docType, foli.caseNumber, foli.name.join( " & " ) ].map( a => a || "" )
 
 
     }
