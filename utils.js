@@ -39,13 +39,16 @@ const folio = {
         const endDate = new Date(),
             startDate = new Date()
         endDate.setUTCHours( 3, 59, 0, 0 )
-        startDate.setDate( endDate.getDate() - 2 )
+
+        const diff = ( new Date().getUTCHours() < 4 ) ? 2 : 1 //utc fix
+
+        startDate.setDate( endDate.getDate() - diff )
         startDate.setUTCHours( 4, 0, 0, 0 )
 
 
-        /*log( ( startDate ) )
+        log( ( startDate ) )
         log( ( endDate ) )
-        log( new Date() )*/
+        log( new Date() )
         if ( typeof input == 'string' ) {
             input = { query: input }
         }
@@ -140,6 +143,7 @@ const search = {
 
                     const result = search.addMissing( search.transformSearchResults( output ), filetype, folios[ i ] )
                         //log( JSON.stringify( result, ( a, b ) => b, 2 ) )
+
                     return result
 
                 } ).catch( error )
@@ -151,15 +155,11 @@ const search = {
         if ( Array.isArray( obj.owners ) ) {
             obj.owners = obj.owners.join( " & " )
         }
+        console.log( folio )
 
         const transformedFolios = search.transformFolios( folio )
 
-        return [
-            transformedFolios[ 0 ],
-            transformedFolios[ 1 ],
-            obj.owners,
-            transformedFolios[ 2 ]
-        ].concat( obj.siteAddress[ 0 ] ).concat( obj.mailingAddress ).map( a => a || "" )
+        return [ transformedFolios.concat( obj.siteAddress[ 0 ] ).map( a => a || "" ), transformedFolios.slice( 0, transformedFolios.length - 1 ).concat( obj.owners ).concat( obj.mailingAddress ).map( a => a || "" ) ]
 
 
 
@@ -227,14 +227,8 @@ const titles = [
         "Document Type",
         "Case Number",
         "Owners Name(s)",
-        "Company Name",
         "Address 1",
         "Address 2",
-        "City",
-        "State",
-        "Zip",
-        "Mailing Address 1",
-        "Mailing Address 2",
         "City",
         "State",
         "Zip"
@@ -279,7 +273,7 @@ const titles = [
                         return Promise.all( arr )
                     } )
                 } ) )
-                .then( allResults => allResults.reduce( ( p, c ) => p.concat( c ), [] ) )
+                .then( allResults => allResults.reduce( ( p, c ) => p.concat( c ), [] ).reduce( ( p, c ) => p.concat( c ), [] ) )
                 .then( data => {
                     excel.addToSheet( data, sheet )
                     excel.saveWorkBook( workbook )
