@@ -48,9 +48,9 @@ const folio = {
         startDate.setUTCHours( 4, 0, 0, 0 )
 
 
-        log( ( startDate ) )
-        log( ( endDate ) )
-        log( new Date() )
+        //log( ( startDate ) )
+        //log( ( endDate ) )
+        //log( new Date() )
         if ( typeof input == 'string' ) {
             input = { query: input }
         }
@@ -155,20 +155,24 @@ const search = {
             const transformed = search.transformSearchResults( ( await output ) )
 
             const merged = search.merge( transformed, filetype, folios[ i ] )
-            log( JSON.stringify( merged, ( a, b ) => b, 2 ) )
+
             const result = await search.addMissing( merged )
+
+            //log( JSON.stringify( result, ( a, b ) => b, 2 ) )
             return result
         } )
 
     },
     addMissing: async function ( arr ) {
+        const addr = headers.indexOf( "Address 1" )
+        const zip = headers.indexOf( "Zip" )
+
         return Promise.all( arr.map( async function ( line ) {
-            const addr = headers.indexOf( "Address 1" )
-            const zip = headers.indexOf( "Zip" )
+
             if ( line[ zip ] == "" && line[ addr ] !== "" ) {
                 //if address is not empty and zip is empty
-                const resp = await pify( where.is )( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}` )
-                line[ zip ] = resp.get( 'postalCode' )
+                line[ zip ] = ( await pify( where.is )( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}` ) ).get( 'postalCode' )
+
             }
             return line
         } ) )
