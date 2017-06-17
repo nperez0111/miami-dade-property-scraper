@@ -1,6 +1,6 @@
-# miami-dade-property-scraper [![Build Status](https://travis-ci.org/nperez0111/miami-dade-property-scraper.svg?branch=master)](https://travis-ci.org/nperez0111/miami-dade-property-scraper)
+# miami-dade-property-scraper
 
-> My stylish module
+> Scrapes http://ecmrer.miamidade.gov:8080/index.html and cross-references http://www.miamidade.gov/propertysearch/#/ to gather data about recent filings of specific documents
 
 
 ## Install
@@ -12,56 +12,16 @@ $ npm install --save miami-dade-property-scraper
 
 ## Usage
 
-```js
-const miamiDadePropertyScraper = require('miami-dade-property-scraper');
-
-miamiDadePropertyScraper('unicorns');
-//=> 'unicorns & rainbows'
+```bash
+node pastDay.js
 ```
 
-
-## API
-
-### miamiDadePropertyScraper(input, [options])
-
-#### input
-
-Type: `string`
-
-Lorem ipsum.
-
-#### options
-
-##### foo
-
-Type: `boolean`<br>
-Default: `false`
-
-Lorem ipsum.
-
-
-## CLI
-
-```
-$ npm install --global miami-dade-property-scraper
-```
-
-```
-$ miami-dade-property-scraper --help
-
-  Usage
-    miami-dade-property-scraper [input]
-
-  Options
-    --foo  Lorem ipsum [Default: false]
-
-  Examples
-    $ miami-dade-property-scraper
-    unicorns & rainbows
-    $ miami-dade-property-scraper ponies
-    ponies & rainbows
-```
-
+Also there is an issue with node-where : insert at lib/address.js:18
+````js
+if ( !body ) {
+            return Error( "No Results" )
+        }
+````
 
 ## License
 
