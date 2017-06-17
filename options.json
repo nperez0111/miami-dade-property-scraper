@@ -3,7 +3,7 @@
         "year": 2017,
         "month": 4,
         "explainMonth": "Month is zero based AKA 0=January,1=February,...11=December",
-        "day": 7
+        "day": 1
     },
     "endDate": {
         "year": 2017,
@@ -21,7 +21,7 @@
         "UCVN"
     ],
     "selection": [
-        2, 0, 1
+        2
     ],
     "explainSelection": "Is A List of the numbers of the files as they appear in 'possibleFiles' so 0 means Search Consent Agreement",
 

@@ -7,11 +7,25 @@ const queryString = require( 'query-string' ),
     got = require( 'got' ),
     makeProxy = require( 'proxify-objects' ),
     memoize = require( 'lodash.memoize' ),
-    pify = require( 'pify' ),
+    //pify = require( 'pify' ),
     where = require( 'node-where' )
-
+const whereis = function ( loc ) {
+    return new Promise( function ( resolve, reject ) {
+        try {
+            return where.is( loc, function ( err, resp ) {
+                if ( err || !resp ) {
+                    reject( err )
+                }
+                resolve( resp )
+            } )
+        } catch ( e ) {
+            reject( "SOMETHING WENT WRONG" )
+        }
+    } )
+}
 const log = function () {
         console.log.apply( console, Array.from( arguments ) )
+        return arguments[ 0 ]
     },
     error = err => { console.error( err ) },
     get = memoize( function ( url, cookie, bool ) {
@@ -156,22 +170,37 @@ const search = {
 
             const merged = search.merge( transformed, filetype, folios[ i ] )
 
-            const result = await search.addMissing( merged )
+            const result = await search.addMissing( merged, folios[ i ] )
 
             //log( JSON.stringify( result, ( a, b ) => b, 2 ) )
             return result
         } )
 
     },
-    addMissing: async function ( arr ) {
+    addMissing: async function ( arr, folio ) {
         const addr = headers.indexOf( "Address 1" )
         const zip = headers.indexOf( "Zip" )
 
         return Promise.all( arr.map( async function ( line ) {
-
-            if ( line[ zip ] == "" && line[ addr ] !== "" ) {
+            if ( line[ addr ] == "" ) {
+                line[ addr ] = `${folio.streetNumber[0]} ${folio.streetDirection[0]} ${folio.streetName[0]} ${folio.streetType[0]}`
+                log( line[ addr ] )
+                line[ addr + 2 ] = "Miami"
+                line[ addr + 3 ] = "FL"
+                log( line )
+            }
+            if ( line[ zip ] == "" && line[ addr ].trim() !== "" ) {
                 //if address is not empty and zip is empty
-                line[ zip ] = ( await pify( where.is )( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}` ) ).get( 'postalCode' )
+                //log( line )
+                //log( line[ addr ] )
+                log( `"${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}",` )
+                try {
+                    line[ zip ] = ( await ( whereis( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}` ).catch( e => { console.log( 'eerror' ) } ) ) ).get( 'postalCode' ) || ''
+                } catch ( e ) {
+                    line[ zip ] = ''
+                }
+                //log( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]},` )
+                //log( 'fo' )
 
             }
             return line
@@ -299,6 +328,7 @@ const titles = [
                     return Promise.all( arr )
                 } )
             } ) )
+            console.log( allResults )
 
             const data = allResults.reduce( ( p, c ) => p.concat( c ), [] ).reduce( ( p, c ) => p.concat( c ), [] )
 
@@ -308,11 +338,20 @@ const titles = [
         }
 
     }
+    /*
+if all zeroes or all 9999 
+use the address from the first site ||
+
+//// if no address in the second site then use the first site
+
+    */
 
 module.exports = {
     get,
     folio,
     search,
     titles,
-    excel
+    headers,
+    excel,
+    whereis
 }
