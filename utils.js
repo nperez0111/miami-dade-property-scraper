@@ -299,7 +299,7 @@ const titles = [
             } )
 
             data.forEach( ( cur, r ) => {
-                console.log( "row" )
+
                 if ( Array.isArray( cur ) ) {
                     cur.forEach( ( val, c ) => {
 
@@ -312,13 +312,12 @@ const titles = [
             // Save it
             workbook.save( function ( err ) {
                 if ( err ) {
-                    log( "Some error occured with the creation of your notebook" )
+                    console.log( "Some error occured with the creation of your notebook" )
                 } else
-                    log( 'Congratulations, your workbook is created' )
+                    console.log( 'Congratulations, your workbook is created' )
             } )
         },
         run: async function ( workbook, dateRange, inpu ) {
-
 
 
             const allResults = await Promise.all( ( inpu || titles ).map( title => {
@@ -329,7 +328,6 @@ const titles = [
                     return Promise.all( arr )
                 } )
             } ) )
-            log( allResults )
 
             const data = allResults.reduce( ( p, c ) => p.concat( c ), [] ).reduce( ( p, c ) => p.concat( c ), [] )
             try {
@@ -342,13 +340,6 @@ const titles = [
         }
 
     }
-    /*
-if all zeroes or all 9999 
-use the address from the first site ||
-
-//// if no address in the second site then use the first site
-
-    */
 
 module.exports = {
     get,
