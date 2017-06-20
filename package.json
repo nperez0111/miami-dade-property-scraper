@@ -9,10 +9,7 @@
         "email": "nperez0111@gmail.com",
         "url": "nickthesick.com"
     },
-    "bin": [
-        "pastDay.js",
-        "specificDate.js"
-    ],
+    "bin": "pastDay.js",
     "engines": {
         "node": ">=4"
     },

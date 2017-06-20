@@ -7,9 +7,9 @@
     },
     "endDate": {
         "year": 2017,
-        "month": 6,
-        "day": 6,
-        "useCurrentDate": true,
+        "month": 4,
+        "day": 31,
+        "useCurrentDate": false,
         "explainUseCurrentDate": "will ignore the date you put in and will use the current date instead"
     },
     "possibleFiles": [
@@ -25,6 +25,6 @@
     ],
     "explainSelection": "Is A List of the numbers of the files as they appear in 'possibleFiles' so 0 means Search Consent Agreement",
 
-    "selectFiles": true,
+    "selectFiles": false,
     "explainSelectFiles": "if true will only search the files specified in 'selection' if false will search all files"
 }

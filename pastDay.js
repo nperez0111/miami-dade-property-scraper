@@ -10,6 +10,7 @@ if ( !module.parent ) {
 }
 
 function single( startDate, endDate, title ) {
+
     const isSameAsTitles = Array.isArray( title ) && title.length == titles.length
     let extra = ""
     if ( !isSameAsTitles ) {

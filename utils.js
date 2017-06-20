@@ -24,7 +24,7 @@ const whereis = function ( loc ) {
     } )
 }
 const log = function () {
-        console.log.apply( console, Array.from( arguments ) )
+        //console.log.apply( console, Array.from( arguments ) )
         return arguments[ 0 ]
     },
     error = err => { console.error( err ) },
@@ -195,7 +195,7 @@ const search = {
                 //log( line[ addr ] )
                 log( `"${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}",` )
                 try {
-                    line[ zip ] = ( await ( whereis( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}` ).catch( e => { console.log( 'eerror' ) } ) ) ).get( 'postalCode' ) || ''
+                    line[ zip ] = '' //( await ( whereis( `${line[addr]} ${line[addr+1]} ${line[addr+2]}, ${line[addr+3]}` ).catch( e => { console.log( 'eerror' ) } ) ) ).get( 'postalCode' ) || ''
                 } catch ( e ) {
                     line[ zip ] = ''
                 }
@@ -204,7 +204,7 @@ const search = {
 
             }
             return line
-        } ) )
+        } ) ).catch( error )
     },
     merge: ( obj, filetype, folio ) => {
         if ( Array.isArray( obj.owners ) ) {
@@ -294,14 +294,15 @@ const titles = [
         addToSheet: ( data, sheet ) => {
 
             // columns then rows
-
             headers.forEach( ( cur, i ) => {
                 sheet.set( i + 1, 1, cur )
             } )
 
             data.forEach( ( cur, r ) => {
+                console.log( "row" )
                 if ( Array.isArray( cur ) ) {
                     cur.forEach( ( val, c ) => {
+
                         sheet.set( c + 1, r + 2, val )
                     } )
                 }
@@ -318,7 +319,7 @@ const titles = [
         },
         run: async function ( workbook, dateRange, inpu ) {
 
-            const sheet = workbook.createSheet( ( ( new Date() ).toDateString() ), headers.length, 1000 )
+
 
             const allResults = await Promise.all( ( inpu || titles ).map( title => {
                 //log( title )
@@ -328,13 +329,16 @@ const titles = [
                     return Promise.all( arr )
                 } )
             } ) )
-            console.log( allResults )
+            log( allResults )
 
             const data = allResults.reduce( ( p, c ) => p.concat( c ), [] ).reduce( ( p, c ) => p.concat( c ), [] )
-
-            excel.addToSheet( data, sheet )
-            excel.saveWorkBook( workbook )
-
+            try {
+                const sheet = workbook.createSheet( ( ( new Date() ).toDateString() ), headers.length, data.length + 3 )
+                excel.addToSheet( data, sheet )
+                excel.saveWorkBook( workbook )
+            } catch ( e ) {
+                console.log( e )
+            }
         }
 
     }

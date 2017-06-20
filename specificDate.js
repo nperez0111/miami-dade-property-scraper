@@ -5,7 +5,7 @@ const scrape = require( './pastDay' );
 const loadJson = require( 'load-json-file' )
 
 loadJson( 'options.json' ).then( obj => {
-
+    //console.log( obj.endDate )
     const startDate = new Date( obj.startDate.year, obj.startDate.month, obj.startDate.day )
     const endDate = obj.endDate.useCurrentDate ? new Date() : new Date( obj.endDate.year, obj.endDate.month, obj.endDate.day )
 
@@ -17,6 +17,7 @@ loadJson( 'options.json' ).then( obj => {
     } else {
         //scrapes all doc types
         scrape( startDate, endDate )
+            //figure out end date
     }
 
 } )
