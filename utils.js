@@ -42,6 +42,7 @@ const log = function () {
                 }
             } )
             .then( resp => resp.body )
+            .catch( error )
             .then( resp => JSON.parse( resp ) )
             .catch( err => {
                 console.error( "CHECK YOUR INTERNET CONNECTION" )
@@ -331,7 +332,7 @@ const titles = [
 
             const data = allResults.reduce( ( p, c ) => p.concat( c ), [] ).reduce( ( p, c ) => p.concat( c ), [] )
             try {
-                const sheet = workbook.createSheet( ( ( new Date() ).toDateString() ), headers.length, data.length + 3 )
+                const sheet = workbook.createSheet( ( ( new Date() ).toDateString() ), headers.length, data.length + 1 )
                 excel.addToSheet( data, sheet )
                 excel.saveWorkBook( workbook )
             } catch ( e ) {
