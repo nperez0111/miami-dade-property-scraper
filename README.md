@@ -1,6 +1,6 @@
-# miami-dade-property-scraper
+# Miami Dade Property Info Scraper
 
-> Scrapes http://ecmrer.miamidade.gov:8080/index.html and cross-references http://www.miamidade.gov/propertysearch/#/ to gather data about recent filings of specific documents
+> Scrapes http://ecmrer.miamidade.gov:8080/index.html and cross-references http://www.miamidade.gov/propertysearch/#/ to gather data about recent filings of specific documents it then outputs automatically as an excel file.
 
 
 ## Usage
