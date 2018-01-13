@@ -12,9 +12,9 @@
 ### How to change specificDate to be the date you want
 1. Open options.json in your preffered text editor
 2. See "startDate"
-  2. (a) Go to "year" change to the desired year on the right hand side of the `:`
-  2. (b) Go to "month" change to the desired month within the `"`'s
-  2. (c) Go to "day" change to the desired day on the right hand side of the `:`
+  * (2a) Go to "year" change to the desired year on the right hand side of the `:`
+  * (2b) Go to "month" change to the desired month within the `"`'s
+  * (2c) Go to "day" change to the desired day on the right hand side of the `:`
 3. See "endDate" - Repeat proccess above
   * "useCurrentDate" allows you to use the current date as the end date for the program
 4. See "selection"
